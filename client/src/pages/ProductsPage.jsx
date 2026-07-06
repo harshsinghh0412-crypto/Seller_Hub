@@ -1,11 +1,27 @@
+import { Typography, Box } from "@mui/material";
 import Products from "../components/Products";
 
 function ProductsPage() {
   return (
-    <>
-      <h1>Products</h1>
+    <Box
+      sx={{
+        px: 3,
+        py: 2,
+      }}
+    >
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: 700,
+          color: "#1e293b",
+          mb: 3,
+        }}
+      >
+        Products
+      </Typography>
+
       <Products />
-    </>
+    </Box>
   );
 }
 

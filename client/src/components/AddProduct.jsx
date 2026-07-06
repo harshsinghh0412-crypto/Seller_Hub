@@ -76,67 +76,138 @@ function AddProduct({
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      maxWidth="sm"
-      fullWidth
+  <Dialog
+    open={open}
+    onClose={onClose}
+    maxWidth="md"
+    fullWidth
+    PaperProps={{
+      sx: {
+        borderRadius: 3,
+        p: 2,
+        boxShadow: "0px 15px 40px rgba(0,0,0,0.25)",
+      },
+    }}
+  >
+    <DialogTitle
+      sx={{
+        fontSize: "30px",
+        fontWeight: 700,
+        color: "#1e293b",
+        pb: 1,
+      }}
     >
-      <DialogTitle>
-        {editingProduct ? "Edit Product" : "Add New Product"}
-      </DialogTitle>
+      {editingProduct ? "Edit Product" : "Add New Product"}
+    </DialogTitle>
 
-      <DialogContent>
-        <Stack spacing={3} mt={1}>
-          <TextField
-            label="Product Name"
-            fullWidth
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+    <DialogContent>
+      <Stack spacing={3} mt={1}>
+        <TextField
+          label="Product Name"
+          fullWidth
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              borderRadius: 2,
+            },
+          }}
+          InputLabelProps={{
+            sx: {
+              color: "#475569",
+              fontWeight: 500,
+            },
+          }}
+        />
 
-          <TextField
-            label="Price"
-            type="number"
-            fullWidth
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
+        <TextField
+          label="Price"
+          type="number"
+          fullWidth
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              borderRadius: 2,
+            },
+          }}
+          InputLabelProps={{
+            sx: {
+              color: "#475569",
+              fontWeight: 500,
+            },
+          }}
+        />
 
-          <TextField
-            label="Stock"
-            type="number"
-            fullWidth
-            value={stock}
-            onChange={(e) => setStock(e.target.value)}
-          />
+        <TextField
+          label="Stock"
+          type="number"
+          fullWidth
+          value={stock}
+          onChange={(e) => setStock(e.target.value)}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              borderRadius: 2,
+            },
+          }}
+          InputLabelProps={{
+            sx: {
+              color: "#475569",
+              fontWeight: 500,
+            },
+          }}
+        />
 
-          <TextField
-            label="Category"
-            fullWidth
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          />
-        </Stack>
-      </DialogContent>
+        <TextField
+          label="Category"
+          fullWidth
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              borderRadius: 2,
+            },
+          }}
+          InputLabelProps={{
+            sx: {
+              color: "#475569",
+              fontWeight: 500,
+            },
+          }}
+        />
+      </Stack>
+    </DialogContent>
 
-      <DialogActions>
-        <Button
-          onClick={onClose}
-          color="inherit"
-        >
-          Cancel
-        </Button>
+    <DialogActions sx={{ p: 3 }}>
+      <Button
+        onClick={onClose}
+        color="inherit"
+        sx={{
+          px: 3,
+          fontWeight: 600,
+          textTransform: "none",
+        }}
+      >
+        Cancel
+      </Button>
 
-        <Button
-          variant="contained"
-          onClick={handleSubmit}
-        >
-          {editingProduct ? "Update Product" : "Save Product"}
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
+      <Button
+        variant="contained"
+        onClick={handleSubmit}
+        sx={{
+          px: 4,
+          py: 1.2,
+          borderRadius: 2,
+          fontWeight: 600,
+          textTransform: "none",
+          boxShadow: 3,
+        }}
+      >
+        {editingProduct ? "Update Product" : "Save Product"}
+      </Button>
+    </DialogActions>
+  </Dialog>
+);
 }
 
 export default AddProduct;

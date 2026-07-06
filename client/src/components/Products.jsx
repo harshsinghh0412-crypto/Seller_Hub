@@ -6,11 +6,13 @@ import {
   TextField,
   Box,
   Typography,
+  InputAdornment,
 } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SearchIcon from "@mui/icons-material/Search";
 
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -60,9 +62,10 @@ function Products() {
     fetchProducts();
   };
 
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(search.toLowerCase()) ||
-    product.category.toLowerCase().includes(search.toLowerCase())
+  const filteredProducts = products.filter(
+    (product) =>
+      product.name.toLowerCase().includes(search.toLowerCase()) ||
+      product.category.toLowerCase().includes(search.toLowerCase())
   );
 
   const columns = [
@@ -80,7 +83,7 @@ function Products() {
     {
       field: "price",
       headerName: "Price",
-      width: 120,
+      width: 130,
       renderCell: (params) => `₹${params.value}`,
     },
     {
@@ -104,7 +107,12 @@ function Products() {
             size="small"
             variant="contained"
             startIcon={<EditIcon />}
-            sx={{ mr: 1 }}
+            sx={{
+              mr: 1,
+              borderRadius: 2,
+              textTransform: "none",
+              fontWeight: 600,
+            }}
             onClick={() => editProduct(params.row)}
           >
             Edit
@@ -115,6 +123,11 @@ function Products() {
             color="error"
             variant="contained"
             startIcon={<DeleteIcon />}
+            sx={{
+              borderRadius: 2,
+              textTransform: "none",
+              fontWeight: 600,
+            }}
             onClick={() => deleteProduct(params.row._id)}
           >
             Delete
@@ -127,29 +140,32 @@ function Products() {
   return (
     <Box
       sx={{
-        mt: 4,
-        bgcolor: "white",
-        p: 3,
-        borderRadius: 2,
-        boxShadow: 3,
+        mt: 2,
+        bgcolor: "#ffffff",
+        p: 4,
+        borderRadius: 3,
+        boxShadow: "0px 8px 30px rgba(0,0,0,0.12)",
       }}
     >
       <Box
         display="flex"
-        justifyContent="space-between"
-        alignItems="center"
+        justifyContent="center"
         mb={3}
       >
-        <Typography variant="h4">
-          Products
-        </Typography>
-
         <Button
           variant="contained"
           startIcon={<AddIcon />}
           onClick={() => {
             setEditingProduct(null);
             setOpenDialog(true);
+          }}
+          sx={{
+            px: 4,
+            py: 1.2,
+            borderRadius: 2,
+            fontWeight: 600,
+            textTransform: "none",
+            boxShadow: 3,
           }}
         >
           New Product
@@ -158,30 +174,75 @@ function Products() {
 
       <TextField
         fullWidth
-        label="Search Products"
-        variant="outlined"
+        placeholder="Search by product name or category..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        sx={{ mb: 3 }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon color="action" />
+            </InputAdornment>
+          ),
+        }}
+        sx={{
+          mb: 3,
+          "& .MuiOutlinedInput-root": {
+            borderRadius: 2,
+          },
+        }}
       />
 
-      <div style={{ width: "100%" }}>
-        <DataGrid
-          rows={filteredProducts}
-          columns={columns}
-          getRowId={(row) => row._id}
-          autoHeight
-          pageSizeOptions={[5, 10, 20]}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
-            },
+      {filteredProducts.length === 0 ? (
+        <Typography
+          align="center"
+          sx={{
+            py: 8,
+            color: "#64748b",
+            fontSize: 18,
+            fontWeight: 500,
           }}
-          disableRowSelectionOnClick
-        />
-      </div>
+        >
+          No products found.
+        </Typography>
+      ) : (
+        <Box sx={{ width: "100%" }}>
+          <DataGrid
+            rows={filteredProducts}
+            columns={columns}
+            getRowId={(row) => row._id}
+            autoHeight
+            rowHeight={60}
+            headerHeight={60}
+            pageSizeOptions={[5, 10, 20]}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 5,
+                },
+              },
+            }}
+            disableRowSelectionOnClick
+            sx={{
+              border: "none",
+              borderRadius: 2,
+
+              "& .MuiDataGrid-columnHeaders": {
+                backgroundColor: "#f8fafc",
+                fontWeight: 700,
+                fontSize: "15px",
+              },
+
+              "& .MuiDataGrid-cell": {
+                borderBottom: "1px solid #f1f5f9",
+              },
+
+              "& .MuiDataGrid-row:hover": {
+                backgroundColor: "#f8fafc",
+              },
+            }}
+          />
+        </Box>
+      )}
 
       <AddProduct
         open={openDialog}

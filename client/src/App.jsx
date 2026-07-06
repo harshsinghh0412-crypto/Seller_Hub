@@ -8,6 +8,7 @@ import Orders from "./pages/Orders";
 import Inventory from "./pages/Inventory";
 import Analytics from "./pages/Analytics";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 import ProtectedLayout from "./layouts/ProtectedLayout";
 
@@ -17,7 +18,7 @@ function App() {
       <Routes>
         {/* Public Route */}
         <Route path="/" element={<Login />} />
-
+        <Route path="/signup" element={<Signup />} />
         {/* Protected Routes */}
         <Route element={<ProtectedLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
@@ -25,6 +26,7 @@ function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/inventory" element={<Inventory />} />
           <Route path="/analytics" element={<Analytics />} />
+          
         </Route>
       </Routes>
     </BrowserRouter>

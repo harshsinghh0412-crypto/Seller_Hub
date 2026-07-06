@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -9,41 +9,46 @@ import {
   Container,
   TextField,
   Typography,
-  Alert,
 } from "@mui/material";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-function Login() {
+function Signup() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleLogin = async (e) => {
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSignup = async (e) => {
     e.preventDefault();
 
-    setError("");
     setLoading(true);
+    setError("");
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        {
-          email,
-          password,
-        }
+      await axios.post(
+        "http://localhost:5000/api/auth/signup",
+        formData
       );
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      alert("Account created successfully!");
 
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
-      setError(err.response?.data?.message || "Login Failed");
+      setError(err.response?.data?.message || "Signup Failed");
     }
 
     setLoading(false);
@@ -67,6 +72,7 @@ function Login() {
           }}
         >
           <CardContent>
+
             <Typography
               variant="h4"
               align="center"
@@ -82,17 +88,7 @@ function Login() {
               color="text.secondary"
               mb={3}
             >
-              Login
-            </Typography>
-
-            <Typography
-                align="center"
-                sx={{ mt: 3 }}
-                >
-                Don't have an account?{" "}
-                <Link to="/signup">
-                    Sign Up
-                </Link>
+              Create Account
             </Typography>
 
             {error && (
@@ -101,41 +97,62 @@ function Login() {
               </Alert>
             )}
 
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleSignup}>
+
               <TextField
-                label="Email"
                 fullWidth
+                label="Name"
+                name="name"
                 margin="normal"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formData.name}
+                onChange={handleChange}
               />
 
               <TextField
-                label="Password"
-                type="password"
                 fullWidth
+                label="Email"
+                name="email"
                 margin="normal"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formData.email}
+                onChange={handleChange}
+              />
+
+              <TextField
+                fullWidth
+                type="password"
+                label="Password"
+                name="password"
+                margin="normal"
+                value={formData.password}
+                onChange={handleChange}
               />
 
               <Button
                 type="submit"
                 variant="contained"
                 fullWidth
-                sx={{
-                  mt: 3,
-                  py: 1.5,
-                }}
+                sx={{ mt: 3, py: 1.5 }}
                 disabled={loading}
               >
                 {loading ? (
                   <CircularProgress size={24} color="inherit" />
                 ) : (
-                  "Login"
+                  "Sign Up"
                 )}
               </Button>
+
             </form>
+
+            <Typography
+              align="center"
+              sx={{ mt: 3 }}
+            >
+              Already have an account?{" "}
+              <Link to="/">
+                Login
+              </Link>
+            </Typography>
+
           </CardContent>
         </Card>
       </Box>
@@ -143,4 +160,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;
