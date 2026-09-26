@@ -138,32 +138,6 @@ http://localhost:5173
 
 ---
 
-## Screenshots
-
-### Login
-
-> Add screenshot here
-
----
-
-### Dashboard
-
-> Add screenshot here
-
----
-
-### Products
-
-> Add screenshot here
-
----
-
-### Analytics
-
-> Add screenshot here
-
----
-
 ## API Endpoints
 
 ### Authentication
